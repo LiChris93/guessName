@@ -6,6 +6,7 @@
 <p>
   <img src="https://forthebadge.com/images/badges/made-with-python.svg">
   <img src="https://forthebadge.com/images/badges/built-with-love.svg">
+  <br>
   <img src="https://img.shields.io/badge/Python-3.12.0-blue?style=for-the-badge&logo=appveyor&logo=">
   <a href="https://www.codefactor.io/repository/github/lichris93/guessname"><img src="https://www.codefactor.io/repository/github/lichris93/guessname/badge" alt="CodeFactor" /></a>
   <a href="https://wakatime.com/@09cb58b5-ccc0-41b8-a821-92fbfde0608f"><img src="https://wakatime.com/badge/user/09cb58b5-ccc0-41b8-a821-92fbfde0608f.svg" alt="Total time coded since Jan 13 2023" /></a>
