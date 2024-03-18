@@ -8,6 +8,8 @@ def main(lines):
     for i in songs.readlines():
         pattern.append(i.strip("\n"))
     songs.close()
+    if lines > len(pattern):
+        raise IndexError("输入的值大于已知歌曲数量")
     #读取 end
     #随机抽取 start
     index = []
@@ -90,5 +92,7 @@ if __name__ == '__main__':
         main(num)
     except KeyboardInterrupt:
         print("游戏结束！")
-    except:
+    except ValueError:
         print("输入错误！")
+    except IndexError as e:
+        print(e)
