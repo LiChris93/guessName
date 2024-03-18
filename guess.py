@@ -40,9 +40,21 @@ def main(lines):
         #显示已经开的字母
         guessed_charaters = []
         for i in guessed:
-            if i in valid_char and i not in guessed_charaters:#是字符并且不重复
+            if i in valid_char and i not in guessed_charaters:#是有效字符并且不重复
                 guessed_charaters.append(i)
-        print(f"已开的字母:{guessed_charaters}")
+        if(len(guessed_charaters) == 0):
+            print("已开的字母:无")
+        else:
+            print(f"已开的字母:{guessed_charaters}")
+        #显示已经猜中的歌
+        guessed_songs = []
+        for i in guessed:
+            if i in result and i not in guessed_songs and i != ' ':#是有效歌曲并且不重复
+                guessed_songs.append(i)
+        if(len(guessed_songs) == 0):
+            print("已猜中的歌:无")
+        else:
+            print(f"已猜中的歌:{guessed_songs}")        
         #显示加密文本
         for i in range(lines):
             print(f"{i+1}.{result_blocked[i]}")
@@ -73,4 +85,10 @@ def main(lines):
         #输入判断 end
     #开字母 end
 if __name__ == '__main__':
-    main(int(input("要猜的歌数(请输入数字):")))
+    try:
+        num = int(input("要猜的歌数(请输入数字):"))
+        main(num)
+    except KeyboardInterrupt:
+        print("游戏结束！")
+    except:
+        print("输入错误！")
