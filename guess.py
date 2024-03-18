@@ -30,9 +30,9 @@ def main(lines):
         result_blocked = []#加密文本
         for i in result:#字符串
             temp=''
-            if i in guessed:#已被猜中，不用做星号处理
+            if i in guessed:#已被猜中,不用做星号处理
                 temp = i
-            else:#未被猜中，做星号处理
+            else:#未被猜中,做星号处理
                 for j in [char for char in i]:#字符数组
                     if not j in guessed:#字符没有被开
                         temp += placeholder
@@ -67,7 +67,7 @@ def main(lines):
             if placeholder in i:
                 nostar = False
         if nostar:
-            print("星号已全部消失，游戏结束！")
+            print("星号已全部消失,游戏结束!")
             break
         #游戏结束判断 end
         #输入判断 start
@@ -77,13 +77,13 @@ def main(lines):
                 guessed.append(user_input)
             else:
                 print(f'歌曲{user_input}已经被猜中了!')
-        elif user_input in valid_char:#没猜中，开字母
+        elif user_input in valid_char:#没猜中,开字母
             if user_input.lower() not in guessed:
                 guessed.append(user_input.lower())
             else:
                 print(f'字符{user_input.lower()}已经被开过了!')
         else:#其他
-            print("非法字符，或者歌名错误!!!")
+            print("非法字符,或者歌名错误!!!")
         #输入判断 end
     #开字母 end
 if __name__ == '__main__':
@@ -91,8 +91,10 @@ if __name__ == '__main__':
         num = int(input("要猜的歌数(请输入数字):"))
         main(num)
     except KeyboardInterrupt:
-        print("游戏结束！")
+        print("游戏结束!")
     except ValueError:
-        print("输入错误！")
+        print("输入错误!")
     except IndexError as e:
         print(e)
+    except FileNotFoundError:
+        print("txt文件未找到!请确定.py与.txt位于同一文件夹内,并cd到该文件夹!")
