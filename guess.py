@@ -42,7 +42,7 @@ def main(lines):
         #显示已经开的字母
         guessed_charaters = []
         for i in guessed:
-            if i in valid_char and i not in guessed_charaters:#是有效字符并且不重复
+            if i in valid_char:#是有效字符
                 guessed_charaters.append(i)
         if(len(guessed_charaters) == 0):
             print("已开的字母:无")
@@ -51,7 +51,7 @@ def main(lines):
         #显示已经猜中的歌
         guessed_songs = []
         for i in guessed:
-            if i in result and i not in guessed_songs and i != ' ':#是有效歌曲并且不重复
+            if i in result:#是有效歌曲
                 guessed_songs.append(i)
         if(len(guessed_songs) == 0):
             print("已猜中的歌:无")
@@ -91,9 +91,9 @@ if __name__ == '__main__':
         num = int(input("要猜的歌数(请输入数字):"))
         main(num)
     except KeyboardInterrupt:
-        print("游戏结束!")
+        print("\n你使用了Ctrl+C,游戏结束!")
     except ValueError:
-        print("输入错误!")
+        print("输入错误!请输入数字!")
     except IndexError as e:
         print(e)
     except FileNotFoundError:
