@@ -25,7 +25,9 @@ def main(lines):
     #随机抽取 end
     #开字母 start
     guessed = [' ']
+    laps = 1#轮数
     while True:
+        print(f"\n第{laps}轮!")
         #处理加密文本 start
         result_blocked = []#加密文本
         for i in result:#字符串
@@ -67,7 +69,7 @@ def main(lines):
             if placeholder in i:
                 nostar = False
         if nostar:
-            print("星号已全部消失,游戏结束!")
+            print(f"星号已全部消失,游戏结束!一共猜了{laps-1}次!")
             break
         #游戏结束判断 end
         #输入判断 start
@@ -85,6 +87,7 @@ def main(lines):
         else:#其他
             print("非法字符,或者歌名错误!!!")
         #输入判断 end
+        laps += 1
     #开字母 end
 if __name__ == '__main__':
     try:
@@ -92,9 +95,9 @@ if __name__ == '__main__':
         main(num)
     except KeyboardInterrupt:
         print("\n你使用了Ctrl+C,游戏结束!")
-    except ValueError:
-        print("输入错误!请输入数字!")
+    except ValueError as e:
+        print(f"ValueError:{e}\n输入错误!请输入数字!")
     except IndexError as e:
         print(e)
-    except FileNotFoundError:
-        print("txt文件未找到!请确定.py与.txt位于同一文件夹内,并cd到该文件夹!")
+    except FileNotFoundError as e:
+        print(f"FileNotFoundError:{e}\ntxt文件未找到!请确定.py与.txt位于同一文件夹内,并cd到该文件夹!")
