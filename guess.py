@@ -90,7 +90,7 @@ def main(lines):
         laps += 1
     #开字母 end
 if __name__ == '__main__':
-    try:
+    try:#异常处理
         num = int(input("要猜的歌数(请输入数字):"))
         main(num)
     except KeyboardInterrupt:
@@ -98,6 +98,6 @@ if __name__ == '__main__':
     except ValueError as e:
         print(f"ValueError:{e}\n输入错误!请输入数字!")
     except IndexError as e:
-        print(e)
+        print(f"IndexError:{e}")
     except FileNotFoundError as e:
         print(f"FileNotFoundError:{e}\ntxt文件未找到!请确定.py与.txt位于同一文件夹内,并cd到该文件夹!")
