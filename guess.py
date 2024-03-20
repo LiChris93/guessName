@@ -1,5 +1,5 @@
 import random
-valid_char = [char for char in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()-.,\'!μ~#?']#定义有效字符
+valid_char = [char for char in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()-.,\'!μ~#?[]']#定义有效字符
 placeholder = '·'
 def main(lines):
     #读取 start
