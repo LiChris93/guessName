@@ -8,6 +8,14 @@ placeholder = "·"
 
 
 def main(lines):
+    """_summary_
+
+    Args:
+        lines (int): 要猜的歌数
+
+    Raises:
+        IndexError: 要猜的歌数大于已知歌曲数量
+    """
     # 读取 start
     songs = open("./songsofarc.txt")
     pattern = []
