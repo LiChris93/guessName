@@ -1,4 +1,4 @@
-import random
+from random import randint
 
 valid_char = [
     char
@@ -17,25 +17,29 @@ def main(lines):
         IndexError: 要猜的歌数大于已知歌曲数量
     """
     # 读取 start
-    songs = open("./songsofarc.txt")
-    pattern = []
-    for i in songs.readlines():
-        pattern.append(i.strip("\n"))
-    songs.close()
-    if lines > len(pattern):
+    songsFile = open("./songsofarc.txt")#打开文件
+    knownSongsList = []  # 已知的所有歌曲(从文件里读取)
+    for i in songsFile.readlines():
+        knownSongsList.append(i.strip("\n"))#逐行读取(并且去掉最后的换行)
+    songsFile.close()#关闭文件
+    if lines > len(knownSongsList):
         raise IndexError("输入的值大于已知歌曲数量!")
     # 读取 end
     # 随机抽取 start
     index = []
     while len(index) < lines:
-        randnum = random.randint(0, len(pattern) - 1)  # 随机数,范围为列表pattern
-        if randnum in index:
+        randnum = randint(
+            0, len(knownSongsList) - 1
+        )  # 随机数,范围为列表knownSongsList的元素个数
+        if randnum in index:  # 若重复则跳过本循环,进入下一轮循环
             continue
-        else:
+        else:  # 不重复,将索引值写入索引列表
             index.append(randnum)
     result = []
     for i in range(lines):
-        result.append(pattern[index[i]])
+        result.append(
+            knownSongsList[index[i]]
+        )  # 从已知的所有歌曲中，按照索引列表获得随机抽取后的结果
     # 随机抽取 end
     # 开字母 start
     guessed = [" "]
@@ -50,7 +54,7 @@ def main(lines):
                 temp = i
             else:  # 未被猜中,做星号处理
                 for j in [char for char in i]:  # 字符数组
-                    if not j in guessed:  # 字符没有被开
+                    if j not in guessed:  # 字符没有被开
                         temp += placeholder
                     else:  # 字符已被开
                         temp += j
