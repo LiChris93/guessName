@@ -21,10 +21,10 @@
 <div align="left">
 
 ## 注意事项
-- [x] <font color='red'>目前只做了arcaea的曲名，请确定你对arcaea有一定了解</font>
+- 目前只做了arcaea的曲名，请确定你对arcaea有一定了解
 
 ## 关于Python版本
-- [x] 使用 Python3.12 编写，但理论支持所有Python3.x
+- 使用 Python3.12 编写，但理论支持所有Python3.x
 
 ## TODO
 - [ ] 支持其他音游曲目曲名
