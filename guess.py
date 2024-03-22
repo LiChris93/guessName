@@ -17,11 +17,11 @@ def main(lines):
         IndexError: 要猜的歌数大于已知歌曲数量
     """
     # 读取 start
-    songsFile = open("./songsofarc.txt")#打开文件
+    songsFile = open("./songsofarc.txt")  # 打开文件
     knownSongsList = []  # 已知的所有歌曲(从文件里读取)
     for i in songsFile.readlines():
-        knownSongsList.append(i.strip("\n"))#逐行读取(并且去掉最后的换行)
-    songsFile.close()#关闭文件
+        knownSongsList.append(i.strip("\n"))  # 逐行读取(并且去掉最后的换行)
+    songsFile.close()  # 关闭文件
     if lines > len(knownSongsList):
         raise IndexError("输入的值大于已知歌曲数量!")
     # 读取 end
