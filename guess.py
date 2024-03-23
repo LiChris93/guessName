@@ -7,11 +7,12 @@ valid_char = [
 placeholder = "·"
 
 
-def main(lines):
+def main(lines, hardMode=False):
     """_summary_
 
     Args:
         lines (int): 要猜的歌数
+        hardMode (Boolean): 困难模式,默认False
 
     Raises:
         IndexError: 要猜的歌数大于已知歌曲数量
@@ -44,8 +45,19 @@ def main(lines):
     # 开字母 start
     guessed = [" "]
     laps = 1  # 轮数
+    score = -1  # 分数
+    if hardMode:  # 困难模式配置
+        print("困难模式!!!")
+        global valid_char
+        valid_char = [
+            char
+            for char in "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ1234567890()-.,'!μ~#?[]"
+        ]  # 去掉元音
+        score = 10 * lines  # 按照总数确定总分数
     while True:
         print(f"\n第{laps}轮!")
+        if hardMode:
+            print(f"现在分数:{score}分")
         # 处理加密文本 start
         result_blocked = []  # 加密文本
         for i in result:  # 字符串
@@ -86,8 +98,16 @@ def main(lines):
         for i in result_blocked:
             if placeholder in i:
                 nostar = False
-        if nostar:
+        if nostar and hardMode:
+            print(f"星号已全部消失,游戏结束!一共猜了{laps-1}次!分数为{score}!")
+            break
+        elif nostar:
             print(f"星号已全部消失,游戏结束!一共猜了{laps-1}次!")
+            break
+        if hardMode and score <= 0:
+            print(f"分数<=0,游戏结束!一共猜了{laps-1}次!正确答案为:")
+            for i in range(lines):
+                print(f"{i+1}.{result[i]}")
             break
         # 游戏结束判断 end
         # 输入判断 start
@@ -102,10 +122,17 @@ def main(lines):
         elif user_input in valid_char:  # 没猜中,开字母
             if user_input.lower() not in guessed:
                 guessed.append(user_input.lower())
+                if hardMode:  # 困难模式扣分
+                    score -= 1
+                    print("开一个字母,分数-1")
             else:
                 print(f"字符{user_input.lower()}已经被开过了!")
         else:  # 其他
-            print("非法字符,或者歌名错误!!!")
+            if hardMode:  # 困难模式扣分
+                score -= 2
+                print("非法字符,或者歌名错误!!!分数-2")
+            else:
+                print("非法字符,或者歌名错误!!!")
         # 输入判断 end
         laps += 1
     # 开字母 end
@@ -114,7 +141,14 @@ def main(lines):
 if __name__ == "__main__":
     try:  # 异常处理
         num = int(input("要猜的歌数(请输入数字):"))
-        main(num)
+        hard = bool(
+            int(
+                input(
+                    "\n是否启用困难模式?\n困难模式有如下规则:\n1.不可开元音字母(aeiou)\n2.采用计分制,满分为10x歌曲数量,开一个字母-1分,输入错误-2分\n启用请输入任意非0数字,否则输入0:"
+                )
+            )
+        )
+        main(num, hard)
     except KeyboardInterrupt:
         print("\n你使用了Ctrl+C,游戏结束!")
     except ValueError as e:
