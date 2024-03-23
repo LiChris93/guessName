@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, sample
 
 valid_char = [
     char
@@ -27,20 +27,7 @@ def main(lines, hardMode=False):
         raise IndexError("输入的值大于已知歌曲数量!")
     # 读取 end
     # 随机抽取 start
-    index = []
-    while len(index) < lines:
-        randnum = randint(
-            0, len(knownSongsList) - 1
-        )  # 随机数,范围为列表knownSongsList的元素个数
-        if randnum in index:  # 若重复则跳过本循环,进入下一轮循环
-            continue
-        else:  # 不重复,将索引值写入索引列表
-            index.append(randnum)
-    result = []
-    for i in range(lines):
-        result.append(
-            knownSongsList[index[i]]
-        )  # 从已知的所有歌曲中，按照索引列表获得随机抽取后的结果
+    result = sample(knownSongsList, lines)
     # 随机抽取 end
     # 开字母 start
     guessed = [" "]
@@ -152,7 +139,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\n你使用了Ctrl+C,游戏结束!")
     except ValueError as e:
-        print(f"ValueError:{e}\n输入错误!请输入数字!")
+        print(f"ValueError:{e}\n输入错误!请输入有效的数字!")
     except IndexError as e:
         print(f"IndexError:{e}")
     except FileNotFoundError as e:
