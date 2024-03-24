@@ -8,7 +8,7 @@ valid_char = [
 placeholder = "·"
 
 
-def main(lines, hardMode=False, groupMode=True):
+def main(lines, hardMode=False, groupMode=False):
     """_summary_
 
     Args:
@@ -178,7 +178,10 @@ if __name__ == "__main__":
                 )
             )
         )
-        main(num, hard)
+        group = bool(
+            int(input("\n是否启用群聊模式(不懂别启用)?\n启用请输入任意非0数字,否则输入0:"))
+        )
+        main(num, hard, group)
     except KeyboardInterrupt:
         print("\n你使用了Ctrl+C,游戏结束!")
     except ValueError as e:
