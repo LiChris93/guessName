@@ -1,4 +1,5 @@
 from random import sample
+import re
 
 valid_char = [
     char
@@ -7,18 +8,21 @@ valid_char = [
 placeholder = "·"
 
 
-def main(lines, hardMode=False):
+def main(lines, hardMode=False, groupMode=True):
     """_summary_
 
     Args:
         lines (int): 要猜的歌数
         hardMode (Boolean): 困难模式,默认False
+        groupMode (Boolean): 群聊模式,默认False
 
     Raises:
         IndexError: 要猜的歌数大于已知歌曲数量
     """
     # 读取 start
-    songsFile = open("./songsofarc.txt")  # 打开文件
+    songsFile = open(
+        {True: "songsofarc_casediffered.txt", False: "songsofarc.txt"}[groupMode]
+    )  # 打开文件
     knownSongsList = []  # 已知的所有歌曲(从文件里读取)
     for i in songsFile.readlines():
         knownSongsList.append(i.strip("\n"))  # 逐行读取(并且去掉最后的换行)
@@ -41,6 +45,8 @@ def main(lines, hardMode=False):
             for char in "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ1234567890()-.,'!μ~#?[]"
         ]  # 去掉元音
         score = 10 * lines  # 按照总数确定总分数
+    if groupMode:  # 群聊模式下先输出答案
+        print(result)
     while True:
         print(f"\n第{laps}轮!")
         if hardMode:
@@ -114,6 +120,43 @@ def main(lines, hardMode=False):
                     print("开一个字母,分数-1")
             else:
                 print(f"字符{user_input.lower()}已经被开过了!")
+        elif groupMode and re.match(r"ans [0-9]+", user_input) != None:  # ans
+            guessed.append(result[int(re.search(r"[0-9]+", user_input).group()) - 1])
+        elif groupMode and re.match(r"hack [0-9]+", user_input) != None:  # hack
+            laps -= 1  # 用hack不算轮数
+            hackTarget = result_blocked[
+                int(re.search(r"[0-9]+", user_input).group()) - 1
+            ]  # 要hack的目标
+            hackTarget_char = [char for char in hackTarget]  # 转换成字符
+            hackResult = []  # 所有可能的hack结果
+            for i in knownSongsList:
+                result_char = [char for char in i]
+                if len(result_char) != len(hackTarget_char):  # 位数不对肯定不是
+                    continue
+                temp = ""
+                index = -1
+                for j in result_char:
+                    index += 1
+                    if (
+                        hackTarget_char[index] == " " and result_char[index] != " "
+                    ) or (
+                        hackTarget_char[index] != " " and result_char[index] == " "
+                    ):  # 空格位置不对,跳过
+                        continue
+                    elif (
+                        hackTarget_char[index] != placeholder
+                        and result_char[index] != hackTarget_char[index]
+                    ):  # 与已开的字母不符,跳过
+                        continue
+                    else:
+                        temp += j
+                if (
+                    temp in knownSongsList
+                ):  # 没有这行会有些奇奇怪怪的东西,所以必须判断是否in knownlist
+                    hackResult.append(temp)
+            print(hackTarget)
+            for i in hackResult:
+                print(i)
         else:  # 其他
             if hardMode:  # 困难模式扣分
                 score -= 2
