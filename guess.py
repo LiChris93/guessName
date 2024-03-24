@@ -128,39 +128,8 @@ def main(lines, hardMode=False, groupMode=False):
                 int(re.search(r"[0-9]+", user_input).group()) - 1
             ]  # 要hack的目标
             hackTarget_char = [char for char in hackTarget]  # 转换成字符
-            hackResult = []  # 所有可能的hack结果
-            for i in knownSongsList:
-                result_char = [char for char in i]
-                if len(result_char) != len(hackTarget_char):  # 位数不对肯定不是
-                    continue
-                temp = ""
-                index = -1
-                for j in result_char:
-                    index += 1
-                    if (
-                        hackTarget_char[index] == " " and result_char[index] != " "
-                    ) or (
-                        hackTarget_char[index] != " " and result_char[index] == " "
-                    ):  # 空格位置不对,跳过
-                        continue
-                    elif (
-                        hackTarget_char[index] != placeholder
-                        and result_char[index] != hackTarget_char[index]
-                    ):  # 与已开的字母不符,跳过
-                        continue
-                    elif (
-                        result_char[index].lower() in guessed
-                        and hackTarget_char[index] == placeholder
-                    ):  # 我不会表达，请看这张图https://img2.imgtp.com/2024/03/24/jEW0FSyk.png
-                        continue
-                    else:
-                        temp += j
-                if (
-                    temp in knownSongsList
-                ):  # 没有这行会有些奇奇怪怪的东西,所以必须判断是否in knownlist
-                    hackResult.append(temp)
             print(hackTarget)
-            for i in hackResult:
+            for i in hack(hackTarget_char, knownSongsList, guessed):
                 print(i)
         else:  # 其他
             if hardMode:  # 困难模式扣分
@@ -171,6 +140,39 @@ def main(lines, hardMode=False, groupMode=False):
         # 输入判断 end
         laps += 1
     # 开字母 end
+
+
+def hack(hackTarget_char, knownSongsList, guessed):
+    hackResult = []  # 所有可能的hack结果
+    for i in knownSongsList:
+        expected_result_char = [char for char in i]
+        if len(expected_result_char) != len(hackTarget_char):  # 位数不对肯定不是
+            continue
+        temp = ""
+        index = -1
+        for j in expected_result_char:
+            index += 1
+            if (hackTarget_char[index] == " " and expected_result_char[index] != " ") or (
+                hackTarget_char[index] != " " and expected_result_char[index] == " "
+            ):  # 空格位置不对,跳过
+                continue
+            elif (
+                hackTarget_char[index] != placeholder
+                and expected_result_char[index] != hackTarget_char[index]
+            ):  # 与已开的字母不符,跳过
+                continue
+            elif (
+                expected_result_char[index].lower() in guessed
+                and hackTarget_char[index] == placeholder
+            ):  # 我不会表达，请看这张图https://img2.imgtp.com/2024/03/24/jEW0FSyk.png
+                continue
+            else:
+                temp += j
+        if (
+            temp in knownSongsList
+        ):  # 没有这行会有些奇奇怪怪的东西(因为没办法在子循环内continue父循环),所以必须判断是否in knownlist
+            hackResult.append(temp)
+    return hackResult
 
 
 if __name__ == "__main__":
