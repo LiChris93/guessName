@@ -127,9 +127,8 @@ def main(lines, hardMode=False, groupMode=False):
             hackTarget = result_blocked[
                 int(re.search(r"[0-9]+", user_input).group()) - 1
             ]  # 要hack的目标
-            hackTarget_char = [char for char in hackTarget]  # 转换成字符
             print(hackTarget)
-            for i in hack(hackTarget_char, knownSongsList, guessed):
+            for i in hack(hackTarget, knownSongsList, guessed):
                 print(i)
         else:  # 其他
             if hardMode:  # 困难模式扣分
@@ -142,7 +141,8 @@ def main(lines, hardMode=False, groupMode=False):
     # 开字母 end
 
 
-def hack(hackTarget_char, knownSongsList, guessed):
+def hack(hackTarget, knownSongsList, guessed):
+    hackTarget_char = [char for char in hackTarget]  # 字符串转换成字符
     hackResult = []  # 所有可能的hack结果
     for i in knownSongsList:
         expected_result_char = [char for char in i]
@@ -152,7 +152,9 @@ def hack(hackTarget_char, knownSongsList, guessed):
         index = -1
         for j in expected_result_char:
             index += 1
-            if (hackTarget_char[index] == " " and expected_result_char[index] != " ") or (
+            if (
+                hackTarget_char[index] == " " and expected_result_char[index] != " "
+            ) or (
                 hackTarget_char[index] != " " and expected_result_char[index] == " "
             ):  # 空格位置不对,跳过
                 continue
