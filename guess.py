@@ -59,7 +59,7 @@ def main(lines, hardMode=False, groupMode=False):
                 temp = i
             else:  # 未被猜中,做星号处理
                 for j in [char for char in i]:  # 字符数组
-                    if j not in guessed:  # 字符没有被开
+                    if j.lower() not in guessed:  # 字符没有被开
                         temp += placeholder
                     else:  # 字符已被开
                         temp += j
@@ -148,6 +148,11 @@ def main(lines, hardMode=False, groupMode=False):
                         and result_char[index] != hackTarget_char[index]
                     ):  # 与已开的字母不符,跳过
                         continue
+                    elif (
+                        result_char[index].lower() in guessed
+                        and hackTarget_char[index] == placeholder
+                    ):  # 我不会表达，请看这张图https://img2.imgtp.com/2024/03/24/jEW0FSyk.png
+                        continue
                     else:
                         temp += j
                 if (
@@ -179,7 +184,11 @@ if __name__ == "__main__":
             )
         )
         group = bool(
-            int(input("\n是否启用群聊模式(不懂别启用)?\n启用请输入任意非0数字,否则输入0:"))
+            int(
+                input(
+                    "\n是否启用群聊模式(不懂别启用)?\n启用请输入任意非0数字,否则输入0:"
+                )
+            )
         )
         main(num, hard, group)
     except KeyboardInterrupt:
