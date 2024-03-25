@@ -3,7 +3,7 @@ import re
 
 valid_char = [
     char
-    for char in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()-.,'!μ~#?[]"
+    for char in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()-.,'!μ~#?[]〇、"
 ]  # 定义有效字符
 placeholder = "·"
 
@@ -141,7 +141,18 @@ def main(lines, hardMode=False, groupMode=False):
     # 开字母 end
 
 
-def hack(hackTarget, knownSongsList, guessed):
+def hack(hackTarget, knownSongsList, guessed=[], placeholder="·"):
+    """_summary_
+
+    Args:
+        hackTarget (str): 要hack的目标
+        knownSongsList (list): 已知的所有曲目
+        guessed (list, optional): 已开的字母. Defaults to [].
+        placeholder (str, optional): 占位符. Defaults to '·'.
+
+    Returns:
+        list: 所有可能的hack结果
+    """
     hackTarget_char = [char for char in hackTarget]  # 字符串转换成字符
     hackResult = []  # 所有可能的hack结果
     for i in knownSongsList:
@@ -159,16 +170,19 @@ def hack(hackTarget, knownSongsList, guessed):
                 hackTarget_char[index] != " " and expected_result_char[index] == " "
             ):  # 空格位置不对,跳过
                 continueBool = True
+                break  # 这个break只是跳出子循环,进入下一轮父循环(其实没有也无妨,但加上可以节省资源)
             elif (
                 hackTarget_char[index] != placeholder
                 and expected_result_char[index] != hackTarget_char[index]
             ):  # 与已开的字母不符,跳过
                 continueBool = True
+                break
             elif (
                 expected_result_char[index].lower() in guessed
                 and hackTarget_char[index] == placeholder
-            ):  # 我不会表达，请看这张图https://img2.imgtp.com/2024/03/24/jEW0FSyk.png
+            ):  # 我不会表达,请看这张图https://img2.imgtp.com/2024/03/24/jEW0FSyk.png
                 continueBool = True
+                break
             else:
                 temp += j
         if continueBool:
