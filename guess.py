@@ -150,6 +150,7 @@ def hack(hackTarget, knownSongsList, guessed):
             continue
         temp = ""
         index = -1
+        continueBool = False  # 子循环continue父循环辅助工具
         for j in expected_result_char:
             index += 1
             if (
@@ -157,23 +158,22 @@ def hack(hackTarget, knownSongsList, guessed):
             ) or (
                 hackTarget_char[index] != " " and expected_result_char[index] == " "
             ):  # 空格位置不对,跳过
-                continue
+                continueBool = True
             elif (
                 hackTarget_char[index] != placeholder
                 and expected_result_char[index] != hackTarget_char[index]
             ):  # 与已开的字母不符,跳过
-                continue
+                continueBool = True
             elif (
                 expected_result_char[index].lower() in guessed
                 and hackTarget_char[index] == placeholder
             ):  # 我不会表达，请看这张图https://img2.imgtp.com/2024/03/24/jEW0FSyk.png
-                continue
+                continueBool = True
             else:
                 temp += j
-        if (
-            temp in knownSongsList
-        ):  # 没有这行会有些奇奇怪怪的东西(因为没办法在子循环内continue父循环),所以必须判断是否in knownlist
-            hackResult.append(temp)
+        if continueBool:
+            continue
+        hackResult.append(temp)
     return hackResult
 
 
