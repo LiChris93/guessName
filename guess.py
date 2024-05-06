@@ -23,7 +23,7 @@ def main(lines, hardMode=False, groupMode=False):
     # 读取 start
     songsFile = open(
         {True: "songsofarc_casediffered.txt", False: "songsofarc.txt"}[groupMode]
-    )  # 打开文件
+    ,encoding="utf-8")  # 打开文件
     knownSongsList = []  # 已知的所有歌曲(从文件里读取)
     for i in songsFile.readlines():
         knownSongsList.append(i.strip("\n"))  # 逐行读取(并且去掉最后的换行)

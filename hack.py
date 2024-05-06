@@ -49,7 +49,7 @@ def hack(hackTarget, knownSongsList, guessed=[], placeholder="·"):
 
 
 if __name__ == "__main__":
-    songsFile = open("songsofarc_casediffered.txt")  # 打开文件
+    songsFile = open("songsofarc_casediffered.txt",encoding="utf-8")  # 打开文件
     knownSongsList = []  # 已知的所有歌曲(从文件里读取)
     for i in songsFile.readlines():
         knownSongsList.append(i.strip("\n"))  # 逐行读取(并且去掉最后的换行)
